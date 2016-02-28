@@ -1,0 +1,10 @@
+dist
+.tmp
+node_modules
+ssh-config.js
+2016-02-27_2016-primaries-map_cache
+2016-02-27_2016-primaries-map_files
+2016-02-27_2016-primaries-map.html
+.Rhistory
+
+*.swp
