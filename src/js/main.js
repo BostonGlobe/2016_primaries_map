@@ -18,4 +18,4 @@ const { svg, path, projection, outlineFeature, features } =
 	choropleth.setup({ container, geodata, geokey })
 
 // First order of business: draw the choropleth.
-choropleth.draw({ svg, outlineFeature, path })
+choropleth.draw({ svg, outlineFeature, features, path })
