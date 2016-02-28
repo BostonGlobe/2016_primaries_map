@@ -3,8 +3,7 @@ import createPath from './createPath.js'
 
 function createSvg({ feature, container }) {
 
-	const { path, width, height } =
-		createPath({ feature, container })
+	const { path, width, height } = createPath({ feature, container })
 
 	// create the svg
 	const svg = d3.select(container)
@@ -15,6 +14,7 @@ function createSvg({ feature, container }) {
 			preserveAspectRatio: 'xMidYMid'
 		})
 
+	// create the features and outline g containers
 	svg.append('g').attr('class', 'features')
 	svg.append('g').attr('class', 'outline')
 

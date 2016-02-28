@@ -24,7 +24,7 @@ const { svg, path, outlineFeature, features } =
 
 // CHOROPLETH CALL
 // first order of business: draw the outline
-choropleth.draw({ svg, path, outlineFeature })
+choropleth.draw({ svg, path, outlineFeature, features })
 
 // next, bind data to features
 

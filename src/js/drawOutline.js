@@ -1,13 +1,15 @@
 export default function drawOutline({ svg, features, path }) {
 
 	// DATA JOIN
-	const outlinePaths = svg.select('g.outline').selectAll('path')
+	const paths = svg.select('g.outline').selectAll('path')
 		.data(features)
 
 	// UPDATE
+	paths
+		.attr('d', path)
 
 	// ENTER
-	outlinePaths.enter().append('path')
+	paths.enter().append('path')
 		.attr('d', path)
 
 }

@@ -1,6 +1,6 @@
 import d3 from 'd3'
 
-function createPathAndProjection({ feature, container }) {
+function createPath({ feature, container }) {
 
 	// we'll center the map on the centroid
 	const centroid = d3.geo.centroid(feature)
@@ -38,8 +38,8 @@ function createPathAndProjection({ feature, container }) {
 		.scale(s)
 		.translate(t)
 
-	return { path, projection, width, height }
+	return { path, width, height }
 
 }
 
-export default createPathAndProjection
+export default createPath
