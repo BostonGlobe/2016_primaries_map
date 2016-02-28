@@ -4,19 +4,32 @@ var browserSync   = require('browser-sync');
 var webpackStream = require('webpack-stream');
 var webpack       = require('webpack');
 
-var config = {
+const config = {
 	module: {
 		loaders: [
 			{ test: /\.csv?$/, loader: 'dsv-loader' },
 			{ test: /\.json$/, loader: 'json-loader' },
-			{ test: /\.js$/,   loader: 'babel', exclude: /node_modules/ }
+			{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
 		]
-	}
+	},
+	plugins: [
+		new webpack.DefinePlugin({
+			'process.env.TEST': JSON.stringify(process.env.TEST)
+		})
+	]
+};
+
+const prod_config = {
+	...config,
+	plugins: [
+		new webpack.optimize.OccurenceOrderPlugin(),
+		new webpack.optimize.DedupePlugin(),
+		new webpack.optimize.UglifyJsPlugin(),
+		...config.plugins
+	]
 };
 
 gulp.task('js-dev', function() {
-
-	config.plugins = [];
 
 	return gulp.src('src/js/main.js')
 		.pipe(webpackStream(config))
@@ -27,13 +40,8 @@ gulp.task('js-dev', function() {
 
 gulp.task('js-prod', function() {
 
-	config.plugins = [
-		new webpack.optimize.UglifyJsPlugin(),
-		new webpack.optimize.DedupePlugin()
-	];
-
 	return gulp.src('src/js/main.js')
-		.pipe(webpackStream(config))
+		.pipe(webpackStream(prod_config))
 		.pipe(rename('bundle.js'))
 		.pipe(gulp.dest('.tmp/js'));
 });

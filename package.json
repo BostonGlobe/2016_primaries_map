@@ -16,7 +16,6 @@
     "eslint-config-airbnb": "^6.0.2",
     "eslint-plugin-react": "^4.1.0",
     "get-json-lite": "^1.1.1",
-    "globe-iframe-resizer": "0.0.2",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.1",
     "gulp-callback": "0.0.3",
@@ -30,11 +29,18 @@
     "gulp-stylus": "^2.0.6",
     "gulp-zip": "^3.0.2",
     "json-loader": "^0.5.3",
+    "periodic.js": "^1.1.0",
+    "pym-iframe-resizer": "^2.0.0",
+    "query-string": "^3.0.1",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.2",
     "shelljs": "^0.5.3",
     "topojson": "^1.6.24",
     "webpack": "^1.12.1",
     "webpack-stream": "^2.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.5.2",
+    "babel-register": "^6.5.2"
   }
 }
