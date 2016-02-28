@@ -15,8 +15,8 @@ function createSvg({ feature, container }) {
 			preserveAspectRatio: 'xMidYMid'
 		})
 
-	svg.append('g').attr('class', 'outline')
 	svg.append('g').attr('class', 'features')
+	svg.append('g').attr('class', 'outline')
 
 	return { svg, path, projection }
 
