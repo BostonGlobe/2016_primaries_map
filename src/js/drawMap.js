@@ -1,11 +1,11 @@
 import drawOutline from './drawOutline.js'
 import drawFeatures from './drawFeatures.js'
 
-function drawMap({ svg, outlineFeature, features, path, featureClass }) {
+function drawMap({ svg, outlineFeature, features, path, chooseFeatureClass }) {
 
 	if (features) {
 
-		drawFeatures({ svg, features, path, featureClass })
+		drawFeatures({ svg, features, path, chooseFeatureClass })
 
 	}
 

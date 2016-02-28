@@ -1,4 +1,4 @@
-function drawFeatures({ svg, features, path, featureClass }) {
+function drawFeatures({ svg, features, path, chooseFeatureClass }) {
 
 	// DATA JOIN
 	const paths = svg.select('g.features').selectAll('path')
@@ -8,14 +8,14 @@ function drawFeatures({ svg, features, path, featureClass }) {
 	paths
 		.attr({
 			d: path,
-			class: featureClass
+			class: chooseFeatureClass
 		})
 
 	// ENTER
 	paths.enter().append('path')
 		.attr({
 			d: path,
-			class: featureClass
+			class: chooseFeatureClass
 		})
 
 }
