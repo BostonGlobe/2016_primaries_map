@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "lint": "eslint src"
+  },
   "dependencies": {
     "babel-core": "^6.5.2",
     "babel-eslint": "^5.0.0",
