@@ -11,7 +11,7 @@ function drawMap({ svg, outlineFeature, features, path, featureClass }) {
 
 	if (outlineFeature) {
 
-		outlineFeature && drawOutline({ svg, features: [outlineFeature], path })
+		drawOutline({ svg, features: [outlineFeature], path })
 
 	}
 

@@ -25,7 +25,7 @@ function colorClassMapper({ candidates, party }) {
 	// sort by main, votecount, ballotorder (in that order
 	const mapping = orderBy(enhancedCandidates,
 		['mainCandidate', 'voteCount', 'ballotOrder'],
-		['desc',          'desc',      'asc'])
+		['desc', 'desc', 'asc'])
 		// and return a candidate/color class hash
 		.map((c, i) => ({
 

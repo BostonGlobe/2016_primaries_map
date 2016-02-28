@@ -23,8 +23,8 @@ const { svg, path, outlineFeature, features } =
 	choropleth.setup({ container, geodata, geokey })
 
 // CHOROPLETH CALL
-// first order of business: draw the choropleth.
-choropleth.draw({ svg, outlineFeature, path })
+// first order of business: draw the outline
+choropleth.draw({ svg, path, outlineFeature })
 
 // next, bind data to features
 
@@ -74,15 +74,13 @@ const featureClass = (d) => {
 		// only return color class if candidate has votes
 		return +candidate.voteCount > 0 ? `fill--${colorClass}` : BLANK
 
-	} else {
-
-		// if no data, return blank
-		return BLANK
-
 	}
+
+	// if no data, return blank
+	return BLANK
 
 }
 
 // CHOROPLETH CALL
 // draw features
-choropleth.draw({ svg, features: boundFeatures, path, featureClass })
+choropleth.draw({ svg, path, features: boundFeatures, featureClass })
