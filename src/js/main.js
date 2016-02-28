@@ -6,7 +6,7 @@ import {
 	standardize,
 	primaries2016Candidates
 } from 'election-utils'
-import choropleth from './choropleth.js'
+import choropleth from './choropleth'
 import chooseFeatureClass from './chooseFeatureClass.js'
 import compareStringsIgnoreCase from './compareStringsIgnoreCase.js'
 
