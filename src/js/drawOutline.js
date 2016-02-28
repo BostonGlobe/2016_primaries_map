@@ -1,11 +1,10 @@
 import d3 from 'd3'
 
-export default function drawOutline({ svg, outlineFeature, path }) {
+export default function drawOutline({ svg, features, path }) {
 
-	// outlineFeature
 	// DATA JOIN
 	let outlinePaths = svg.select('g.outline').selectAll('path')
-		.data([outlineFeature]);
+		.data(features);
 
 	// UPDATE
 
