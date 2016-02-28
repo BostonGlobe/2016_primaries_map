@@ -1,16 +1,17 @@
-import d3 from 'd3'
-
-function drawFeatures({ svg, features, path }) {
+function drawFeatures({ svg, features, path, featureClass }) {
 
 	// DATA JOIN
-	let featurePaths = svg.select('g.features').selectAll('path')
-		.data(features);
+	const featurePaths = svg.select('g.features').selectAll('path')
+		.data(features)
 
 	// UPDATE
 
 	// ENTER
 	featurePaths.enter().append('path')
-		.attr('d', path);
+		.attr({
+			d: path,
+			class: featureClass
+		})
 
 }
 

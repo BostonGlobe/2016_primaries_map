@@ -1,16 +1,16 @@
 import d3 from 'd3'
-import createPathAndProjection from './createPathAndProjection.js'
+import createPath from './createPath.js'
 
 function createSvg({ feature, container }) {
 
-	const { path, projection, width, height } =
-		createPathAndProjection({ feature, container })
+	const { path, width, height } =
+		createPath({ feature, container })
 
 	// create the svg
 	const svg = d3.select(container)
 		.append('svg')
 		.attr({
-			'class': 'choropleth',
+			class: 'choropleth',
 			viewBox: [0, 0, width, height].join(' '),
 			preserveAspectRatio: 'xMidYMid'
 		})
@@ -18,7 +18,7 @@ function createSvg({ feature, container }) {
 	svg.append('g').attr('class', 'features')
 	svg.append('g').attr('class', 'outline')
 
-	return { svg, path, projection }
+	return { svg, path }
 
 }
 

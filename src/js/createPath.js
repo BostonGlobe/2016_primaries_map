@@ -23,11 +23,11 @@ function createPathAndProjection({ feature, container }) {
 	// we'll use the aspect to update container dimensions
 	// we wouldn't need to do this were it not for safari
 	// because chrome obeys svg viewport
-	const aspect = (b[1][0]-b[0][0])/(b[1][1]-b[0][1])
+	const aspect = (b[1][0] - b[0][0]) / (b[1][1] - b[0][1])
 
 	// Use normalized width and height.
 	const width = container.parentNode.offsetWidth
-	const height = Math.round(width/aspect)
+	const height = Math.round(width / aspect)
 
 	// Compute scale and translate.
 	const s = 0.9 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height)

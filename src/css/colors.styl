@@ -1,0 +1,46 @@
+$democratic = {
+	democratic-0: #59889D
+	democratic-1: #6771AB
+	democratic-2: #62B383
+}
+
+.fill--democratic-other
+	fill #BED7E1
+	background-color #BED7E1
+
+for range, color in $democratic
+	.color--{range}
+		color color
+	.fill--{range}
+		background-color color
+		fill color
+
+// from http://paletton.com/#uid=5080u0kirnZ8gBFdftbnziRtadi
+$republican = {
+	republican-0: #BF6451
+	republican-1: #BF8A51
+	republican-2: #A3456D
+
+	republican-3: #6A1A09
+	republican-4: #6A3C09
+	republican-5: #5A082B
+
+	republican-6: #963B28
+	republican-7: #966128
+	republican-8: #802249
+
+	republican-9: #E99988
+	republican-10: #E9BA88
+	republican-11: #C67497
+}
+
+.fill--republican-other
+	fill #FFC9BD
+	background-color #FFC9BD
+
+for range, color in $republican
+	.color--{range}
+		color color
+	.fill--{range}
+		background-color color
+		fill color

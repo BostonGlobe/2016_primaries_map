@@ -12,9 +12,9 @@ function setupMap({ container, geodata, geokey }) {
 	// create outline feature
 	const outlineFeature = topojson.merge(geodata, geodata.objects[geokey].geometries)
 
-	const { svg, path, projection } = createSvg({ feature, container })
+	const { svg, path } = createSvg({ feature, container })
 
-	return { svg, path, projection, outlineFeature, features }
+	return { svg, path, outlineFeature, features }
 
 }
 
