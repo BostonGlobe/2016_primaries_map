@@ -1,8 +1,7 @@
 import globeIframe from 'globe-iframe-resizer'
 globeIframe()
 
-import setupMap from './setupMap.js'
-import drawFeatures from './drawFeatures.js'
+import choropleth from './choropleth.js'
 import geodata from './ma.json'
 
 // convenience function
@@ -14,9 +13,9 @@ const container = $('.map-container')
 // get map features name
 const geokey = 'subunits'
 
-// setup map - this returns various objects
+// setup choropleth - this returns various objects
 const { svg, path, projection, outlineFeature, features } =
-	setupMap({ container, geodata, geokey })
+	choropleth.setup({ container, geodata, geokey })
 
-// First order of business: draw the map.
-drawFeatures({ svg, outlineFeature, path })
+// First order of business: draw the choropleth.
+choropleth.draw({ svg, outlineFeature, path })
