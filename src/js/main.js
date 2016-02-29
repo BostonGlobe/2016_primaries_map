@@ -1,16 +1,10 @@
 import pymIframe from 'pym-iframe-resizer'
 pymIframe.resizer()
 
-import {
-	Candidates,
-	standardize,
-	primaries2016Candidates
-} from 'election-utils'
 import periodicJS from 'periodic.js'
 import getJSON from 'get-json-lite'
 import choropleth from './choropleth'
 
-import urlManager from './urlManager.js'
 import drawPartyMap from './drawPartyMap.js'
 
 import geodata from './ma.json'
@@ -37,11 +31,11 @@ function drawParty({ party }) {
 	// first order of business: draw the outline
 	choropleth.draw({ svg, path, outlineFeature })
 
-	return { path, outlineFeature, features }
+	return { path, features }
 
 }
 
-const { path, outlineFeature, features } = drawParty({ party: 'dem' })
+const { path, features } = drawParty({ party: 'dem' })
 drawParty({ party: 'gop' })
 
 function fetchData(resume) {
