@@ -4,11 +4,13 @@ pymIframe.resizer()
 import periodicJS from 'periodic.js'
 import getJSON from 'get-json-lite'
 import choropleth from './choropleth'
+import stateResults from './table/stateResults.js'
 
 import drawPartyMap from './drawPartyMap.js'
 
 import geodata from './ma.json'
 
+// TODO: point to real url
 const url = 'http://localhost:3010'
 
 // convenience functions
@@ -50,13 +52,13 @@ function fetchData(resume) {
 
 	getJSON(url, (data) => {
 
-		console.log(index)
-		index += 1
-
-		console.log(data)
-
 		// draw party map
 		data.races.forEach(race => drawPartyMap({ race, features, path }))
+
+		// draw state results table
+		data.races.forEach(race =>
+			$(`.${race.party.toLowerCase()} .state-results`).innerHTML =
+				stateResults({ results: race }))
 
 		// do we have an incomplete race?
 		// get state-level reporting units
@@ -80,14 +82,16 @@ function fetchData(resume) {
 
 	}, () => {
 
+		// on error, call updater again
 		resume()
 
 	})
 
 }
 
+// TODO: make this pull every 15 sec
 periodicJS({
-	duration: 1 * 100,
+	duration: 100 * 1000,
 	displaySelector,
 	callback: fetchData,
 	runImmediately: true

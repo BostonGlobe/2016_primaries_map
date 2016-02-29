@@ -3,6 +3,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "add-commas": "github:gabrielflorit/add-commas",
     "babel-core": "^6.5.2",
     "babel-eslint": "^5.0.0",
     "babel-loader": "^6.2.4",
@@ -36,6 +37,7 @@
     "run-sequence": "^1.1.2",
     "shelljs": "^0.5.3",
     "topojson": "^1.6.24",
+    "underscore.string": "^3.3.4",
     "webpack": "^1.12.1",
     "webpack-stream": "^2.1.0"
   },
