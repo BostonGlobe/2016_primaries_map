@@ -42,7 +42,21 @@ drawParty({ party: 'gop' })
 
 const displaySelector = '.updater span'
 
-let index = 0
+function updateElement({ selector, html }) {
+
+	$(selector).innerHTML = html
+
+}
+
+function updateTable(race) {
+
+	const table = $(`.${race.party.toLowerCase()} .state-results`)
+	const { show } = table.dataset
+	const { prioritize } = table.dataset
+	const html = stateResults({ race, show, prioritize })
+	table.innerHTML = html
+
+}
 
 function fetchData(resume) {
 
@@ -56,15 +70,13 @@ function fetchData(resume) {
 		data.races.forEach(race => drawPartyMap({ race, features, path }))
 
 		// draw state results table
-		data.races.forEach(race =>
-			$(`.${race.party.toLowerCase()} .state-results`).innerHTML =
-				stateResults({ results: race }))
+		data.races.forEach(updateTable)
 
 		// do we have an incomplete race?
 		// get state-level reporting units
 		const anyIncompleteRace = data.races.find(race =>
 			+race.reportingUnits
-			.find(unit => unit.level ==='state')
+			.find(unit => unit.level === 'state')
 			.precinctsReportingPct < 100
 		)
 

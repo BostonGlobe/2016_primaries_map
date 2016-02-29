@@ -1,20 +1,28 @@
 import addCommas from 'add-commas'
-import { standardize, Candidate, primaries2016Candidates, primaries2016Dates } from 'election-utils'
-import slugify from 'underscore.string/slugify'
+import {
+	standardize,
+	Candidates,
+	Candidate,
+	primaries2016Candidates,
+	primaries2016Dates
+} from 'election-utils'
 import orderBy from 'lodash.orderby'
+import compareStringsIgnoreCase from './../compareStringsIgnoreCase.js'
 
-function candidateRow(candidate, index, totalVoteCount, party, NUMBER_TO_PRIORITIZE) {
+function candidateRow({ candidate, index, totalVoteCount, party, prioritize }) {
 
-	const first      = candidate.hasOwnProperty('first') ? candidate.first : ''
-	const last       = candidate.hasOwnProperty('last') ? candidate.last : ''
-	const voteCount  = candidate.hasOwnProperty('voteCount') ? candidate.voteCount : 0
-	const percent    = totalVoteCount > 0 ? candidate.voteCount/totalVoteCount : 0
+	console.log(party)
+
+	const first = candidate.hasOwnProperty('first') ? candidate.first : ''
+	const last = candidate.hasOwnProperty('last') ? candidate.last : ''
+	const voteCount = candidate.hasOwnProperty('voteCount') ? candidate.voteCount : 0
+	const percent = totalVoteCount > 0 ? candidate.voteCount / totalVoteCount : 0
 	const displayPct = standardize.percent(percent)
 
-	const winnerTag  = Candidate.isWinner(candidate) ? '<span class="winner">✔</span>' : ''
+	const winnerTag = Candidate.isWinner(candidate) ? '<span class="winner">✔</span>' : ''
 
 	const image = primaries2016Candidates.find(c => c.last === last.toLowerCase())
-		? `${last.toLowerCase().replace("'", "")}.jpg`
+		? `${last.toLowerCase().replace("'", '')}.jpg`
 		: 'placeholder.png'
 
 	const fancy = `
@@ -26,7 +34,7 @@ function candidateRow(candidate, index, totalVoteCount, party, NUMBER_TO_PRIORIT
 				<div class='pct'><span class='epsilon'>${displayPct}%</span></div>
 			</div>
 			<div class='bar-and-votes'>
-				<div class='bar'><span class='iota wrapper'><span style='width: ${displayPct}%'>&nbsp;</span></span></div>
+				<div class='bar'><span class='iota wrapper'><span class='fill--${party.toLowerCase()}-${index}' style='width: ${displayPct}%'>&nbsp;</span></span></div>
 				<div class='votes'><span class='iota'>${addCommas(voteCount)} votes</span></div>
 			</div>
 		</div>
@@ -41,52 +49,53 @@ function candidateRow(candidate, index, totalVoteCount, party, NUMBER_TO_PRIORIT
 	</div>
 	`
 
-	return index < NUMBER_TO_PRIORITIZE ? fancy : lite
+	return index < prioritize ? fancy : lite
 
 }
 
-export default function stateResults({ results, NUMBER_TO_PRIORITIZE, MAX_NUMBER_TO_DISPLAY }) {
+export default function stateResults({ race, show, prioritize }) {
 
 	// get state-level reporting unit
-	const stateUnit = results.reportingUnits.find(x => x.level === 'state')
+	const stateUnit = race.reportingUnits.find(x => x.level === 'state')
 
-	// filter out not real candidates
-	const filtered = stateUnit.candidates.filter(c => {
-		return primaries2016Candidates.find(c1 => c1.last === c.last.toLowerCase())
+	// augment candidate with 'isMainAndRunning' boolean flag
+	const candidates = stateUnit.candidates.map(candidate => {
+
+		// try to find this candidate in primaries2016Candidates
+		const mainCandidate = primaries2016Candidates.find(c =>
+			compareStringsIgnoreCase(c.last, candidate.last))
+
+		const isMainAndRunning = !!mainCandidate && !mainCandidate.suspendedDate
+
+		return {
+			...candidate,
+			isMainAndRunning
+		}
+
 	})
 
-	console.log(JSON.stringify(primaries2016Candidates, null, 2))
-
-	const withSuspended = filtered.map(c1 => {
-		const c2 = primaries2016Candidates.find(c3 => c3.last === c1.last.toLowerCase())
-		const active = c2.suspendedDate ? 0 : 1
-		c1.active = active
-		return c1
-	})
-
-	withSuspended.sort((a,b) => a.ballotOrder - b.ballotOrder)
-	withSuspended.sort((a,b) => b.active - a.active)
-
-	// sort candidates by vote count and ballot order
-	const candidates = orderBy(withSuspended, ['voteCount'], ['desc'])
+	// sort candidates
+	const sortedCandidates = orderBy(candidates,
+		['isMainAndRunning', 'voteCount', 'ballotOrder'],
+		['desc', 'desc', 'asc']
+	)
 
 	// get the total vote count
-	const totalVoteCount = candidates
-		.map(x => x.voteCount)
-		.reduce((x, y) => x + y)
+	const totalVoteCount = Candidates.getVoteCount(sortedCandidates)
 
-	const partyAbbr = results.party
-	const party = standardize.expandParty(partyAbbr)
+	const party = standardize.expandParty(race.party)
 
 	const stateAbbr = stateUnit.statePostal
 	const state = standardize.expandState(stateAbbr)
 
-	const raceType = standardize.raceType(results.raceType)
+	const raceType = standardize.raceType(race.raceType)
 
 	const raceInfo = primaries2016Dates.find(d => {
-		const sameState = d.stateAbbr === stateAbbr.toUpperCase()
-		const sameParty = d.party.toLowerCase() === party.toLowerCase()
+
+		const sameState = compareStringsIgnoreCase(d.stateAbbr, stateAbbr)
+		const sameParty = compareStringsIgnoreCase(d.party, party)
 		return sameState && sameParty
+
 	})
 
 	const note = raceInfo.resultsNote ? `<div class="results-note">Note: ${raceInfo.resultsNote}</div>` : ''
@@ -98,7 +107,7 @@ export default function stateResults({ results, NUMBER_TO_PRIORITIZE, MAX_NUMBER
 	</div>
 
 	<div class='results ${party}'>
-		${candidates.slice(0, MAX_NUMBER_TO_DISPLAY).map((x, i) => candidateRow(x, i, totalVoteCount, party, NUMBER_TO_PRIORITIZE)).join('')}
+		${sortedCandidates.slice(0, show).map((candidate, index) => candidateRow({ candidate, index, totalVoteCount, party, prioritize })).join('')}
 	</div>
 
 	${note}

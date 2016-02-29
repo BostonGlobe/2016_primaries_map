@@ -1,0 +1,197 @@
+$votes-width = 7rem
+$photo-width = 4rem
+$vertical-offset = 0.5rem
+
+$small = 16rem
+$medium = 18rem
+$large = 22rem
+
+.test-status
+	margin 1em
+	text-align center
+	border solid red 0.5em
+	span
+		font-family $benton
+		color red
+
+.results-container
+	position relative
+
+.updater
+	position absolute
+	right 0
+	line-height 1
+	span
+		color #777
+		font-family $sans
+
+.state-results
+
+	.winner
+		display inline-block
+		vertical-align middle
+		color #efefef
+		background-color $winner
+		border-radius 50%
+		font-size 0.7em
+		line-height 1.5
+		width 1.5em
+		height 1.5em
+		text-align center
+		margin-right 0.5em
+
+	.title-and-updater
+		width 100%
+		overflow hidden
+
+		&.Democratic
+			.title span
+				color $dem
+
+		&.Republican
+			.title span
+				color $gop
+
+		.title
+			float left
+			width 50%
+			text-align left
+			line-height 1
+			span
+				font-family $sans
+				text-transform uppercase
+
+	.precincts-and-more
+		width 100%
+		overflow hidden
+
+		.precincts
+			float left
+			span
+				font-family $sans
+				&.extra
+					display none
+					@media screen and (min-width: $small)
+						display inline
+
+		.more
+			float right
+			a
+				text-decoration underline
+				font-family $sans
+				.extra
+					display none
+					@media screen and (min-width: $small)
+						display inline
+
+	.results
+
+		.candidate-row
+			border-bottom solid #ddd 1px
+			width 100%
+			overflow hidden
+
+		.candidate-row.fancy
+			margin-top 0.5rem
+
+			.photo
+				display none
+				@media screen and (min-width: $medium)
+					float left
+					display block
+					img
+						width $photo-width
+						vertical-align bottom
+						border-radius 50%
+
+			.two-rows
+				@media screen and (min-width: $medium)
+					padding-left $photo-width + 1
+					position relative
+					top $vertical-offset
+
+				.name-and-pct
+					width 100%
+					overflow hidden
+
+					.name
+						float left
+						span
+							font-weight bold
+							font-family $benton
+						.first
+							display none
+							@media screen and (min-width: $large)
+								display inline
+
+					.pct
+						float right
+						span
+							font-weight bold
+							font-family $benton
+
+				.bar-and-votes
+					width 100%
+					overflow hidden
+					position relative
+					@media screen and (min-width: $medium)
+						margin-top -1*$vertical-offset
+
+					.bar
+						float left
+						width 100%
+						text-align left
+						padding-right $votes-width
+						span
+							display inline-block
+							&.wrapper
+								width 100%
+								background #eee
+								line-height 0.75
+
+					.votes
+						position absolute
+						right 0
+						span
+							font-family $sans
+							color #777
+
+						.sdes-suffix
+							font-weight bold
+							color black
+
+		.candidate-row.lite
+
+			.name-and-votes-and-pct
+				width 100%
+				overflow hidden
+				text-align left
+				position relative
+
+				.first.name
+					display none
+					@media screen and (min-width: $large)
+						display inline
+				.name
+					font-family $sans
+
+				.votes
+					display none
+					font-family $sans
+					color #777
+					@media screen and (min-width: $medium)
+						display inline
+
+				.pct
+					position absolute
+					right 0
+					display inline-block
+					font-weight bold
+					font-family $benton
+
+.results-note
+	font-family $benton
+	margin-top 1em
+	font-size 0.75em
+	line-height 1.3
+
