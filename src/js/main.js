@@ -1,98 +1,64 @@
 import pymIframe from 'pym-iframe-resizer'
 pymIframe.resizer()
 
-import { parse } from 'query-string'
 import {
 	Candidates,
 	standardize,
 	primaries2016Candidates
 } from 'election-utils'
-import choropleth from './choropleth'
 import periodicJS from 'periodic.js'
+import getJSON from 'get-json-lite'
+import choropleth from './choropleth'
 
 import urlManager from './urlManager.js'
-import chooseFeatureClass from './chooseFeatureClass.js'
-import compareStringsIgnoreCase from './compareStringsIgnoreCase.js'
-import getJSON from 'get-json-lite'
+import drawPartyMap from './drawPartyMap.js'
 
 import geodata from './ma.json'
+
+const url = 'http://localhost:3002/results.json'
 
 // convenience functions
 const $ = (s) => document.querySelector(s)
 
-// get map container
-const container = $('.map-container')
-
 // get map features name
 const geokey = 'subunits'
 
-// CHOROPLETH CALL
-// setup choropleth - this returns various objects
-const { svg, path, outlineFeature, features } =
-	choropleth.setup({ container, geodata, geokey })
+function drawParty({ party }) {
 
-// CHOROPLETH CALL
-// first order of business: draw the outline
-choropleth.draw({ svg, path, outlineFeature, features })
+	// get map container
+	const container = $(`.${party} .map-container`)
 
-// get race details, e.g. ['ma', 'dem']
-const [stateAbbr, partyAbbr] = parse(location.search).race.split('-')
+	// CHOROPLETH CALL
+	// setup choropleth - this returns various objects
+	const { svg, path, outlineFeature, features } =
+		choropleth.setup({ container, geodata, geokey })
 
-const url = urlManager({ stateAbbr, partyAbbr, level: 'ru' })
+	// CHOROPLETH CALL
+	// first order of business: draw the outline
+	choropleth.draw({ svg, path, outlineFeature })
+
+	return { path, outlineFeature, features }
+
+}
+
+const { path, outlineFeature, features } = drawParty({ party: 'dem' })
+drawParty({ party: 'gop' })
 
 function fetchData(resume) {
 
 	getJSON(url, (data) => {
 
-		// next, bind data to features
+		data.races.forEach(race => drawPartyMap({ race, features, path }))
 
-		// get the results
-		const results = data.races[0]
+// 		const { precinctsReportingPct } = stateUnit
 
-		// get the party's full name
-		const party = standardize.expandParty(results.party)
+// 		// if we have less than 100% precincts reporting, continue
+// 		if (+precinctsReportingPct < 100) {
 
-		// get reporting units
-		const { reportingUnits } = results
+// 			// continue clock
+// 			resume()
 
-		// get state-level reporting units
-		const stateUnit = reportingUnits.find(x => x.level === 'state')
-		const { candidates } = stateUnit
-
-		// get subunit-level reporting units
-		const subunits = reportingUnits.filter(x => x.level === 'subunit')
-
-		// bind features
-		const boundFeatures = features.map(f => ({
-			...f,
-			subunit: subunits.find(s =>
-				compareStringsIgnoreCase(s.reportingunitName, f.properties.apname))
-		}))
-
-		// get color mapping
-		const colorClassMapping = Candidates.makeColorMappings({
-			candidates,
-			party,
-			mainCandidates: primaries2016Candidates })
-
-		// CHOROPLETH CALL
-		// draw features
-		choropleth.draw({
-			svg,
-			path,
-			features: boundFeatures,
-			chooseFeatureClass: (d) => chooseFeatureClass({ d, colorClassMapping })
-		})
-
-		const { precinctsReportingPct } = stateUnit
-
-		// if we have less than 100% precincts reporting, continue
-		if (+precinctsReportingPct < 100) {
-
-			// continue clock
-			resume()
-
-		}
+// 		}
 
 	}, () => {
 
@@ -103,7 +69,8 @@ function fetchData(resume) {
 }
 
 periodicJS({
-	duration: 3 * 1000,
+	duration: 100 * 1000,
+	displaySelector: '.updater span',
 	callback: fetchData,
 	runImmediately: true
 })

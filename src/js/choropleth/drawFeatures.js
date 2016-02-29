@@ -1,8 +1,10 @@
+import d3 from 'd3'
+
 function drawFeatures({ svg, features, path, chooseFeatureClass }) {
 
 	// DATA JOIN
-	const paths = svg.select('g.features').selectAll('path')
-		.data(features)
+	const paths = d3.select(svg).select('g.features').selectAll('path')
+		.data(features, d => d.id)
 
 	// UPDATE
 	paths

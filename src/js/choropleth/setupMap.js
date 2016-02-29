@@ -14,7 +14,7 @@ function setupMap({ container, geodata, geokey }) {
 
 	const { svg, path } = createSvg({ feature, container })
 
-	return { svg, path, outlineFeature, features }
+	return { svg: svg.node(), path, outlineFeature, features }
 
 }
 

@@ -1,7 +1,9 @@
+import d3 from 'd3'
+
 export default function drawOutline({ svg, features, path }) {
 
 	// DATA JOIN
-	const paths = svg.select('g.outline').selectAll('path')
+	const paths = d3.select(svg).select('g.outline').selectAll('path')
 		.data(features)
 
 	// UPDATE
