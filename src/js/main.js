@@ -9,7 +9,7 @@ import drawPartyMap from './drawPartyMap.js'
 
 import geodata from './ma.json'
 
-const url = 'http://localhost:3002/results.json'
+const url = 'http://localhost:3010'
 
 // convenience functions
 const $ = (s) => document.querySelector(s)
@@ -38,21 +38,45 @@ function drawParty({ party }) {
 const { path, features } = drawParty({ party: 'dem' })
 drawParty({ party: 'gop' })
 
+const displaySelector = '.updater span'
+
+let index = 0
+
 function fetchData(resume) {
+
+	// tell user we are fetching data
+	const element = $(displaySelector)
+	element.innerHTML = 'updating'
 
 	getJSON(url, (data) => {
 
+		console.log(index)
+		index += 1
+
+		console.log(data)
+
+		// draw party map
 		data.races.forEach(race => drawPartyMap({ race, features, path }))
 
-// 		const { precinctsReportingPct } = stateUnit
+		// do we have an incomplete race?
+		// get state-level reporting units
+		const anyIncompleteRace = data.races.find(race =>
+			+race.reportingUnits
+			.find(unit => unit.level ==='state')
+			.precinctsReportingPct < 100
+		)
 
-// 		// if we have less than 100% precincts reporting, continue
-// 		if (+precinctsReportingPct < 100) {
+		if (anyIncompleteRace) {
 
-// 			// continue clock
-// 			resume()
+			// continue clock
+			resume()
 
-// 		}
+		} else {
+
+			// clear the updater and don't call periodicjs again
+			element.innerHTML = ''
+
+		}
 
 	}, () => {
 
@@ -63,8 +87,8 @@ function fetchData(resume) {
 }
 
 periodicJS({
-	duration: 100 * 1000,
-	displaySelector: '.updater span',
+	duration: 1 * 100,
+	displaySelector,
 	callback: fetchData,
 	runImmediately: true
 })
