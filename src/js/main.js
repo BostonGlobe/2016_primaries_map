@@ -41,7 +41,7 @@ function drawParty({ party }) {
 const { path, features } = drawParty({ party: 'dem' })
 drawParty({ party: 'gop' })
 
-const displaySelector = '.updater span'
+const displaySelector = '.updater .text'
 
 function updateElement({ selector, html }) {
 
@@ -63,7 +63,7 @@ function fetchData(resume) {
 
 	// tell user we are fetching data
 	const element = $(displaySelector)
-	element.innerHTML = 'updating'
+	element.innerHTML = 'Updating&hellip;'
 
 	getJSON(url, (data) => {
 
@@ -104,7 +104,7 @@ function fetchData(resume) {
 
 // TODO: make this pull every 15 sec
 periodicJS({
-	duration: 105 * 1000,
+	duration: 15 * 1000,
 	displaySelector,
 	callback: fetchData,
 	runImmediately: true

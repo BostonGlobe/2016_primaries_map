@@ -11,30 +11,36 @@ header
 	.title
 		span
 			font-weight bold
+			color #333
 
-		.small-abbr
+		abbr
 			display inline
 			@media screen and (min-width: $tiny)
 				display none
 
-		.medium-abbr
+		.name
 			display none
 			@media screen and (min-width: $tiny)
-				display inline
-			@media screen and (min-width: $small*1.1)
-				display none
-
-		.large-abbr
-			display none
-			@media screen and (min-width: $small*1.1)
 				display inline
 
 	.updater
 		position absolute
 		bottom 0
 		right 0
+
 		span
-			text-transform lowercase
+			text-align right
+			white-space nowrap
+
+		.shadow
+			visibility hidden
+
+		.text
+			position absolute
+			bottom 0
+
+
+
 
 .parties
 	width 100%

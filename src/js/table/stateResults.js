@@ -11,8 +11,6 @@ import compareStringsIgnoreCase from './../compareStringsIgnoreCase.js'
 
 function candidateRow({ candidate, index, totalVoteCount, party, prioritize }) {
 
-	console.log(party)
-
 	const first = candidate.hasOwnProperty('first') ? candidate.first : ''
 	const last = candidate.hasOwnProperty('last') ? candidate.last : ''
 	const voteCount = candidate.hasOwnProperty('voteCount') ? candidate.voteCount : 0
