@@ -1,10 +1,6 @@
 $votes-width = 7rem
-$photo-width = 4rem
+$photo-width = 3.5rem
 $vertical-offset = 0.5rem
-
-$small = 16rem
-$medium = 18rem
-$large = 22rem
 
 .test-status
 	margin 1em
@@ -13,17 +9,6 @@ $large = 22rem
 	span
 		font-family $benton
 		color red
-
-.results-container
-	position relative
-
-.updater
-	position absolute
-	right 0
-	line-height 1
-	span
-		color #777
-		font-family $sans
 
 .state-results
 
@@ -39,6 +24,7 @@ $large = 22rem
 		height 1.5em
 		text-align center
 		margin-right 0.5em
+		margin-bottom 0.5em
 
 	.title-and-updater
 		width 100%
@@ -53,8 +39,6 @@ $large = 22rem
 				color $gop
 
 		.title
-			float left
-			width 50%
 			text-align left
 			line-height 1
 			span
@@ -71,8 +55,9 @@ $large = 22rem
 				font-family $sans
 				&.extra
 					display none
-					@media screen and (min-width: $small)
-						display inline
+
+					// @media screen and (min-width: $small)
+					// 	display inline
 
 		.more
 			float right
@@ -81,8 +66,9 @@ $large = 22rem
 				font-family $sans
 				.extra
 					display none
-					@media screen and (min-width: $small)
-						display inline
+
+					// @media screen and (min-width: $small)
+					// 	display inline
 
 	.results
 
@@ -93,9 +79,19 @@ $large = 22rem
 
 		.candidate-row.fancy
 			margin-top 0.5rem
+			padding-bottom 0.25rem
 
 			.photo
-				display none
+				float left
+				display block
+				img
+					width $photo-width
+					vertical-align bottom
+					border-radius 50%
+
+				@media screen and (min-width: $small)
+					display none
+
 				@media screen and (min-width: $medium)
 					float left
 					display block
@@ -105,6 +101,13 @@ $large = 22rem
 						border-radius 50%
 
 			.two-rows
+				padding-left $photo-width + 1
+				position relative
+				top $vertical-offset
+
+				@media screen and (min-width: $small)
+					padding-left 0
+
 				@media screen and (min-width: $medium)
 					padding-left $photo-width + 1
 					position relative
@@ -119,8 +122,11 @@ $large = 22rem
 						span
 							font-weight bold
 							font-family $benton
+
 						.first
-							display none
+							display inline
+							@media screen and (min-width: $small)
+								display none
 							@media screen and (min-width: $large)
 								display inline
 
@@ -134,8 +140,9 @@ $large = 22rem
 					width 100%
 					overflow hidden
 					position relative
-					@media screen and (min-width: $medium)
-						margin-top -1*$vertical-offset
+
+					margin-top -1*$vertical-offset
+					// @media screen and (min-width: $medium)
 
 					.bar
 						float left
@@ -170,8 +177,10 @@ $large = 22rem
 
 				.first.name
 					display none
-					@media screen and (min-width: $large)
-						display inline
+
+					// @media screen and (min-width: $large)
+					// 	display inline
+
 				.name
 					font-family $sans
 
@@ -179,8 +188,9 @@ $large = 22rem
 					display none
 					font-family $sans
 					color #777
-					@media screen and (min-width: $medium)
-						display inline
+
+					// @media screen and (min-width: $medium)
+					// 	display inline
 
 				.pct
 					position absolute

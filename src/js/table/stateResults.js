@@ -103,7 +103,7 @@ export default function stateResults({ race, show, prioritize }) {
 	return `
 
 	<div class='title-and-updater ${party}'>
-		<div class='title'><span class='iota'>${state} ${party} ${raceType}</span></div>
+		<div class='title'><span class='iota'>${party} ${raceType}</span></div>
 	</div>
 
 	<div class='results ${party}'>

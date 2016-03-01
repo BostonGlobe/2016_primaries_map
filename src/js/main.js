@@ -5,13 +5,14 @@ import periodicJS from 'periodic.js'
 import getJSON from 'get-json-lite'
 import choropleth from './choropleth'
 import stateResults from './table/stateResults.js'
+import urlManager from './urlManager.js'
 
 import drawPartyMap from './drawPartyMap.js'
 
 import geodata from './ma.json'
 
 // TODO: point to real url
-const url = 'http://localhost:3010'
+const url = urlManager({ stateAbbr: 'ma', partyAbbr: 'dem', level: 'ru' })
 
 // convenience functions
 const $ = (s) => document.querySelector(s)
@@ -103,7 +104,7 @@ function fetchData(resume) {
 
 // TODO: make this pull every 15 sec
 periodicJS({
-	duration: 100 * 1000,
+	duration: 105 * 1000,
 	displaySelector,
 	callback: fetchData,
 	runImmediately: true

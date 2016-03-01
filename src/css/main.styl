@@ -1,13 +1,56 @@
+header
+	width 100%
+	border-bottom solid #cccccc 1px
+	margin-bottom 1em
+	position relative
+	div
+		display inline-block
+	span
+		font-family $benton
+
+	.title
+		span
+			font-weight bold
+
+		.small-abbr
+			display inline
+			@media screen and (min-width: $tiny)
+				display none
+
+		.medium-abbr
+			display none
+			@media screen and (min-width: $tiny)
+				display inline
+			@media screen and (min-width: $small*1.1)
+				display none
+
+		.large-abbr
+			display none
+			@media screen and (min-width: $small*1.1)
+				display inline
+
+	.updater
+		position absolute
+		bottom 0
+		right 0
+		span
+			text-transform lowercase
+
 .parties
-	border solid red 1px
 	width 100%
 	overflow hidden
 
-	.party
-		width 48%
+	@media screen and (min-width: $small)
 
-		&.dem
-			float left
+		.party
+			width 48%
 
-		&.gop
-			float right
+			&.dem
+				float left
+
+			&.gop
+				float right
+
+.parties .party:first-child
+	margin-bottom 1em
+
