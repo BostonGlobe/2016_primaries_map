@@ -1,3 +1,4 @@
+import find from './find.js'
 import pymIframe from 'pym-iframe-resizer'
 pymIframe.resizer()
 
