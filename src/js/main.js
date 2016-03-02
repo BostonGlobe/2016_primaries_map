@@ -53,8 +53,8 @@ function updateElement({ selector, html }) {
 function updateTable(race) {
 
 	const table = $(`.${race.party.toLowerCase()} .state-results`)
-	const { show } = table.dataset
-	const { prioritize } = table.dataset
+	const show = table.getAttribute('data-show')
+	const prioritize = table.getAttribute('data-prioritize')
 	const html = stateResults({ race, show, prioritize })
 	table.innerHTML = html
 
