@@ -4,26 +4,47 @@ import { Candidates } from 'election-utils'
 const chooseFeatureClass = ({ d, colorClassMapping }) => {
 
 	const BLANK = 'blank'
+	const TIE = 'tie'
+	let result = BLANK
 
 	// do we have a matching subunit?
 	const { subunit } = d
 	if (subunit) {
 
+		const candidates = Candidates.sort(subunit.candidates)
+
 		// find this subunit's leading candidate id
-		const candidate = Candidates.sort(subunit.candidates)[0]
+		const candidate = candidates[0]
 		const { candidateID } = candidate
 
 		// get this candidate's color class
 		const { colorClass } = colorClassMapping.find(x =>
 			x.candidateID === candidateID)
 
-		// only return color class if candidate has votes
-		return +candidate.voteCount > 0 ? `fill--${colorClass}` : BLANK
+		// do we have votes?
+		if (+candidate.voteCount > 0) {
+
+			// do we have a tie?
+			if (candidate.voteCount === candidates[1].voteCount) {
+
+				result = TIE
+
+			} else {
+
+				// no tie, just regular results
+				result = `fill--${colorClass}`
+
+			}
+
+		} else {
+
+			// no results
+			result = BLANK
+		}
 
 	}
 
-	// if no data, return blank
-	return BLANK
+	return result
 
 }
 
